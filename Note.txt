@@ -1,0 +1,4 @@
+For Structural Style Modeling:
+
+component variables and source variables must be same.
+port names should not clash with any variables name.
