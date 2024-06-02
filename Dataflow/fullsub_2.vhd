@@ -21,6 +21,6 @@ architecture Behavioral of fullsub_2 is
 begin
 
     D <= A xor B xor Bin;
-    Bout <= (not(A) and B) or (not(A) and Bin) or (B and Bin);
+    Bout <= (not(A) and B) or (not(A) and Bin) or (B and Bin); 
 
 end Behavioral;
