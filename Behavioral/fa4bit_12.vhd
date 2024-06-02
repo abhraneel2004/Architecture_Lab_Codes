@@ -15,19 +15,65 @@ end fa4bit_12;
 
 architecture Behavioral of fa4bit_12 is
 begin
-    process (A, B, Cin)
-        variable ca: STD_LOGIC_VECTOR (2 downto 0);
-    begin
-        Sum(0) <= A(0) xor B(0) xor Cin;
-        ca(0) := (A(0) and B(0)) or (A(0) and Cin) or (B(0) and Cin);
-        
-        Sum(1) <= A(1) xor B(1) xor ca(0);
-        ca(1) := (A(1) and B(1)) or (A(1) and ca(0)) or (B(1) and ca(0));
-        
-        Sum(2) <= A(2) xor B(2) xor ca(1);
-        ca(2) := (A(2) and B(2)) or (A(2) and ca(1)) or (B(2) and ca(1));
-        
-        Sum(3) <= A(3) xor B(3) xor ca(2);
-        Cout <= (A(3) and B(3)) or (A(3) and ca(2)) or (B(3) and ca(2));
-    end process;
+	process (A, B, Cin)
+      variable ca: STD_LOGIC_VECTOR (2 downto 0);
+   begin
+		
+		-- For 1st bit
+		if((A(0)='0' and B(0)='0' and Cin='0') or (A(0)='0' and B(0)='1' and Cin='1') or (A(0)='1' and B(0)='0' and Cin='1') or (A(0)='1' and B(0)='1' and Cin='0')) then
+			Sum(0) <= '0';
+		else
+			Sum(0) <= '1';
+		
+		end if;
+		
+		if ((A(0)='1' and B(0)='1') or (A(0)='1' and Cin='1') or (B(0)='1' and Cin='1')) then
+			ca(0):= '1';
+		else
+			ca(0):='0';
+		end if;
+		
+		-- For 2nd bit
+		if((A(1)='0' and B(1)='0' and ca(0)='0') or (A(1)='0' and B(1)='1' and ca(0)='1') or (A(1)='1' and B(1)='0' and ca(0)='1') or (A(1)='1' and B(1)='1' and ca(0)='0')) then
+			Sum(1) <= '0';
+		else
+			Sum(1) <= '1';
+		
+		end if;
+		
+		if ((A(1)='1' and B(1)='1') or (A(1)='1' and ca(0)='1') or (B(1)='1' and ca(0)='1')) then
+			ca(1):= '1';
+		else
+			ca(1):='0';
+		end if;
+		
+		-- For 3rd bit
+		if((A(2)='0' and B(2)='0' and ca(1)='0') or (A(2)='0' and B(2)='1' and ca(1)='1') or (A(2)='1' and B(2)='0' and ca(1)='1') or (A(2)='1' and B(2)='1' and ca(1)='0')) then
+			Sum(2) <= '0';
+		else
+			Sum(2) <= '1';
+		
+		end if;
+		
+		if ((A(2)='1' and B(2)='1') or (A(2)='1' and ca(1)='1') or (B(2)='1' and ca(1)='1')) then
+			ca(2):= '1';
+		else
+			ca(2):='0';
+		end if;
+		
+		-- For 4th bit
+		if((A(3)='0' and B(3)='0' and ca(2)='0') or (A(3)='0' and B(3)='1' and ca(2)='1') or (A(3)='1' and B(3)='0' and ca(2)='1') or (A(3)='1' and B(3)='1' and ca(2)='0')) then
+			Sum(3) <= '0';
+		else
+			Sum(3) <= '1';
+		
+		end if;
+		
+		if ((A(3)='1' and B(3)='1') or (A(3)='1' and ca(2)='1') or (B(3)='1' and ca(2)='1')) then
+			Cout <= '1';
+		else
+			Cout <= '0';
+		end if;
+		
+   end process;
 end Behavioral;
